@@ -11,7 +11,8 @@ The key feature of this project:
 3. Traning and tutorial section
 4. Seasonal Crops suggestion based on different seasons and weather conditions ( API used  )
 5. E-Commerce
-
+Promotion video:
+https://youtu.be/EXaOMyQ2loM
 Technical terms :
 1. Tools:
 HTML,
