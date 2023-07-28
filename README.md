@@ -8,7 +8,7 @@ The key feature of this project:
 1. Home section
 2. Agricultural article  blog section
 3. Traning and tutorial section
-4. Seasonal Crops suggestion based on different seasons and weather condition ( API used  )
+4. Seasonal Crops suggestion based on different seasons and weather conditions ( API used  )
 5. E-Commerce
 
 Technical terms :
