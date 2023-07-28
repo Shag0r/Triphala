@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Weather</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
+    <style>
+        /* start framework  */
+
+        h1,
+        h6 {
+            font-size: 20px;
+            color: #1B9C85;
+        }
+
+        .icon-w {
+            border: transparent;
+            border-radius: 20px;
+            color: royalblue;
+        }
+
+        /* end framework  */
+
+        .head {
+
+            border: 2px solid transparent;
+            border-radius: 20px;
+            text-align: center;
+            background-color: #E3F2C1;
+            height: 150px;
+
+        }
+    </style>
+
+</head>
+
+<body>
+    <header>
+        <!-- place navbar here -->
+        <div class="container">
+            <div class="row mt-5 mb-5">
+                <div class="col-3"></div>
+                <div class="col-6">
+                    <select name="city" id="city" class="form-control">
+                        <option value="dhaka">Dhaka</option>
+                        <option value="chittagong">Chittagong</option>
+                        <option value="khulna">Khulna</option>
+                        <option value="rajshahi">Rajshahi</option>
+                        <option value="sylhet">Sylhet</option>
+                        <option value="barisal">Barisal</option>
+                        <option value="rangpur">Rangpur</option>
+                        <option value="comilla">Comilla</option>
+                        <option value="narayanganj">Narayanganj</option>
+                        <option value="mymensingh">Mymensingh</option>
+                    </select>
+
+
+                </div>
+                <div class="col-3"></div>
+            </div>
+            <div class="row mt-5 mb-5">
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <h6><span id="city"></span>,<span class="lead text-5" id="country"></span>
+                    </h6>
+                </div>
+                <div class="col-2"></div>
+            </div>
+        </div>
+
+    </header>
+    <main>
+        <div class="container">
+            <hr>
+            <div class="row">
+                <div class="col-4">
+                    <div class="head">
+                        <h1>Today's Temperature</h1>
+                        <h4 id="temp"></h4>
+
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="head">
+                        <h1>Wind Speed</h1>
+                        <h4 id="wind"></h4>
+                        <p>Km/h</p>
+
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="head">
+                        <h1>Sky Condition</h1>
+                        <h4 id="sky"></h4>
+                        <img src="" class="icon-w" id="icon" srcset="" class="w-50 mt-10">
+
+                    </div>
+                </div>
+
+            </div>
+
+            <section class="crops-suggestion mt-5  justify-content-center align-items-center">
+
+                <div class="row">
+                    <div class="col-3">
+                        <div class="form-group mt-3">
+                            <input type="text" name="agri-crop" id="agri-crop" class="form-control"
+                                placeholder="Enter the Crop">
+                        </div>
+                    </div>
+                    <div class="col-9 mt-3">
+                        <button class="btn btn-success" id="get-crop-suggestions">Get Crop Suggestions</button>
+                    </div>
+                </div>
+                <div class="col-8 mt-3 mb-5">
+                    <div id="crop-suggestions" class="card-group"></div>
+                </div>
+            </section>
+
+
+        </div>
+    </main>
+    <footer>
+        <div class="container">
+            <hr>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS v5.2.1 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-r8B6q8P0HLzxTJi0L1eNcAC2zF9Sz9igUV0tzE+ynsUvIKGVYgWU3aTd7E6+8enp"
+        crossorigin="anonymous"></script>
+
+    <script>
+        const cityNameInput = document.getElementById('name');
+        const cityElement = document.getElementById('city');
+        const countryElement = document.getElementById('country');
+        const temperatureElement = document.getElementById('temp');
+        const windElement = document.getElementById('wind');
+        const skyElement = document.getElementById('sky');
+        const iconElement = document.getElementById('icon');
+        const cropSuggestionsDiv = document.getElementById('crop-suggestions');
+        const getCropSuggestionsButton = document.getElementById('get-crop-suggestions');
+
+        // Retrieve weather information and crop suggestions
+        getCropSuggestionsButton.addEventListener('click', () => {
+            const cityName = cityNameInput.value;
+
+            // Fetch weather data from OpenWeatherMap API
+            fetch(`http://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=YOUR_API_KEY&units=metric`)
+                .then(response => response.json())
+                .then(data => {
+                    const temperature = data.main.temp;
+                    const windSpeed = data.wind.speed;
+                    const weatherDescription = data.weather[0].description;
+                    const weatherIcon = data.weather[0].icon;
+
+                    // Display weather information
+                    cityElement.textContent = cityName;
+                    countryElement.textContent = data.sys.country;
+                    temperatureElement.textContent = temperature + '°C';
+                    windElement.textContent = windSpeed;
+                    skyElement.textContent = weatherDescription;
+                    iconElement.src = `http://openweathermap.org/img/w/${weatherIcon}.png`;
+
+                    // Retrieve crop suggestions
+                    const crops = ['Rice', 'Wheat', 'Maize', 'Potato', 'Onion', 'Garlic', 'Cauliflower', 'Cabbage', 'Tomato', 'Carrot'];
+
+                    // Clear previous suggestions
+                    cropSuggestionsDiv.innerHTML = '';
+
+                    crops.forEach(crop => {
+                        // Create card for each crop suggestion
+                        const card = document.createElement('div');
+                        card.className = 'card mb-3';
+
+                        const cardBody = document.createElement('div');
+                        cardBody.className = 'card-body';
+
+                        const cropName = document.createElement('h5');
+                        cropName.className = 'card-title';
+                        cropName.textContent = crop;
+
+                        const cropImage = document.createElement('img');
+                        cropImage.className = 'card-img-top';
+                        cropImage.src = `https://example.com/images/${crop.toLowerCase()}.jpg`; // Replace with the actual URL of the crop image
+
+                        cardBody.appendChild(cropName);
+                        card.appendChild(cropImage);
+                        card.appendChild(cardBody);
+                        cropSuggestionsDiv.appendChild(card);
+                    });
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        });
+
+    </script>
+</body>
+
+</html>
